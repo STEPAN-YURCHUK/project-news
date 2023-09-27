@@ -46,4 +46,12 @@ export class UserController {
 			return response.status(500).json(`Failed to upload image file: ${error.message}`)
 		}
 	}
+
+	@ApiOperation({ summary: 'Просмотр аватара по ID пользователя' })
+	@ApiParam({ name: 'id', description: 'Идентификатор пользователя' })
+	@ApiResponse({ status: 200, description: 'Успешно', type: String })
+	@Get('getAvatarById/:id')
+	getAvatarById(@Param('id') id: number) {
+		return this.userService.getAvatarById(id)
+	}
 }
