@@ -12,12 +12,13 @@ export class UserService {
 
 	async createUser(email: string, password: string) {
 		const activationLink = uuidv4()
+		const role = await this.rolesService.getRoleByValue('USER')
 		const user = await this.userRepository.create({
 			email,
 			password,
 			activationLink,
 		})
-		const role = await this.rolesService.getRoleByValue('ADMIN')
+
 		await user.$set('roles', [role.id])
 		user.roles = [role]
 		return user
@@ -64,6 +65,8 @@ export class UserService {
 
 		user.avatar = url.url
 		user.save()
+
+		return user
 	}
 
 	async getAvatarById(id: number) {

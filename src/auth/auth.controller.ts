@@ -14,7 +14,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Аутентификация пользователя' })
 	@ApiBody({ type: CreateUserDto })
-	@ApiResponse({ status: 200, description: 'Успешно', type: Object })
+	@ApiResponse({ status: 200, description: 'Успешно', type: RefreshTokenResponseDto })
 	@Post('/login')
 	login(@Body() userDto: CreateUserDto) {
 		return this.authService.login(userDto)
@@ -22,7 +22,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Регистрация пользователя' })
 	@ApiBody({ type: CreateUserDto })
-	@ApiResponse({ status: 200, description: 'Успешно', type: Object })
+	@ApiResponse({ status: 200, description: 'Успешно', type: RefreshTokenResponseDto })
 	@Post('/registration')
 	registration(@Body() userDto: CreateUserDto) {
 		return this.authService.registration(userDto)
@@ -40,7 +40,7 @@ export class AuthController {
 	@ApiOperation({ summary: 'Сброс пароля' })
 	@ApiQuery({ name: 'token', description: 'Токен сброса пароля' })
 	@ApiBody({ type: ResetPasswordDto, description: 'Новый пароль' })
-	@ApiResponse({ status: 200, description: 'Успешно', type: Object })
+	@ApiResponse({ status: 200, description: 'Успешно', type: '{ message: "Пароль успешно изменен" }' })
 	@Post('reset-password')
 	async resetPassword(@Query('token') token: string, @Body('newPassword') dto: ResetPasswordDto) {
 		await this.authService.resetPassword(token, dto.newPassword)

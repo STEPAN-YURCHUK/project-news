@@ -34,7 +34,7 @@ export class RolesController {
 
 	@ApiOperation({ summary: 'Удаление роли' })
 	@ApiBody({ type: DeleteRoleDto })
-	@ApiResponse({ status: 200, description: 'Успешно', type: Object })
+	@ApiResponse({ status: 200, description: 'Успешно', schema: { example: { message: 'Роль удалена успешно' } } })
 	@Roles('ADMIN')
 	@UseGuards(RoleGuard)
 	@Delete('deleteRole')
