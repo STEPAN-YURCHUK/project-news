@@ -12,7 +12,12 @@ export class RolesService {
 
 	async createRole(roleDto: CreateRoleDto) {
 		const role = await this.roleRepository.create(roleDto)
-		return role
+		const roleResponse = {
+			id: role.id,
+			value: role.value,
+			description: role.description,
+		}
+		return roleResponse
 	}
 
 	async getRoleByValue(value: string) {

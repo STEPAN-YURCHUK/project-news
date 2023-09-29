@@ -9,7 +9,7 @@ class AccessAndRefreshTokenDto {
 	refresh_token: string
 }
 
-export class RefreshTokenResponseDto {
+export class UserResponseDto {
 	@ApiProperty({ description: 'Пользователь', type: User })
 	user: User
 

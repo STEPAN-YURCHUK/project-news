@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectModel } from '@nestjs/sequelize'
 import { FileService } from 'src/file/file.service'
@@ -10,10 +10,12 @@ import { User } from './models/user.model'
 export class UserService {
 	constructor(@InjectModel(User) private userRepository: typeof User, private rolesService: RolesService, private jwtService: JwtService, private fileService: FileService) {}
 
-	async createUser(email: string, password: string) {
+	async createUser(name: string, surname: string, email: string, password: string) {
 		const activationLink = uuidv4()
 		const role = await this.rolesService.getRoleByValue('USER')
 		const user = await this.userRepository.create({
+			name,
+			surname,
 			email,
 			password,
 			activationLink,
@@ -25,7 +27,11 @@ export class UserService {
 	}
 
 	async getAllUsers() {
-		return await this.userRepository.findAll({ include: { all: true } })
+		const users = await this.userRepository.findAll({ attributes: ['id', 'name', 'surname', 'email', 'isActivate', 'avatar'] })
+		if (!users) {
+			throw new HttpException('Пользователи не найдены', HttpStatus.NO_CONTENT)
+		}
+		return users
 	}
 
 	async getUserByEmail(email: string) {
@@ -71,6 +77,11 @@ export class UserService {
 
 	async getAvatarById(id: number) {
 		const user = await this.userRepository.findOne({ where: { id } })
+		if (!user) {
+			throw new HttpException('Пользователя нет найден', HttpStatus.NOT_FOUND)
+		} else if (!user.avatar) {
+			throw new HttpException('У пользователя нет аватар', HttpStatus.NOT_FOUND)
+		}
 		return user.avatar
 	}
 }

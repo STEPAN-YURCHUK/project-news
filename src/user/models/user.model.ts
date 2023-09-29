@@ -10,11 +10,18 @@ export class User extends Model<User> {
 	@Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
 	id: number
 
+	@ApiProperty({ example: 'Иван', description: 'Имя пользователя' })
+	@Column({ type: DataType.STRING, allowNull: false })
+	name: string
+
+	@ApiProperty({ example: 'Иванов', description: 'Фамилия' })
+	@Column({ type: DataType.STRING, allowNull: false })
+	surname: string
+
 	@ApiProperty({ example: 'admin@admin.com', description: 'Почтовый адрес' })
 	@Column({ type: DataType.STRING, unique: true, allowNull: false })
 	email: string
 
-	@ApiProperty({ example: '12345678', description: 'Пароль' })
 	@Column({ type: DataType.STRING, allowNull: false })
 	password: string
 
@@ -22,11 +29,9 @@ export class User extends Model<User> {
 	@Column({ type: DataType.BOOLEAN, defaultValue: false })
 	isActivate: boolean
 
-	@ApiProperty({ example: 'iuwqrwoqmfw', description: 'Ссылка на активацию' })
 	@Column({ type: DataType.STRING })
 	activationLink: string
 
-	@ApiProperty({ example: '43b23on23', description: 'Токен восстановление пароля' })
 	@Column({ type: DataType.STRING, defaultValue: null })
 	resetPasswordToken: string
 

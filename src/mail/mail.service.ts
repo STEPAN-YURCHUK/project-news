@@ -38,7 +38,7 @@ export class MailService {
 		}
 		user.isActivate = true
 		user.save()
-		return `Почта ${user.email} подтверждена`
+		return { message: `Почта ${user.email} подтверждена` }
 	}
 
 	async sendPasswordResetEmail(email: string, resetToken: string) {

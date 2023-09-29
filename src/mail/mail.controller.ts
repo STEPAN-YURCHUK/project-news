@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ActivateEmailDto } from './dto/activate.email.dto'
 import { MailService } from './mail.service'
 
 @ApiTags('Почта')
@@ -16,7 +17,7 @@ export class MailController {
 	}
 
 	@ApiOperation({ summary: 'Активация по электронной почте' })
-	@ApiBody({ description: 'Адрес электронной почты', type: String })
+	@ApiBody({ type: ActivateEmailDto, description: 'Адрес электронной почты' })
 	@ApiResponse({ status: 200, description: 'Успешно', schema: { example: { message: 'Подтверждение отправлено на почту' } } })
 	@Post('activate')
 	async activateEmail(@Body('email') email: string) {
